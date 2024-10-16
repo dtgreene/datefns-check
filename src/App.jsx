@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, Fragment } from 'react';
 import { proxy, useSnapshot } from 'valtio';
 import { javascript } from '@codemirror/lang-javascript';
 import { tokyoNight } from '@uiw/codemirror-theme-tokyo-night';
@@ -88,12 +88,21 @@ export const App = () => {
             Execute
           </button>
         </div>
-        {snap.codeError && (
+        {snap.codeError ? (
           <div className="text-red-300 p-4 border border-red-300">
             {snap.codeError}
           </div>
+        ) : (
+          <Fragment>
+            {typeof snap.result === 'string' ? (
+              <div className="p-4 border">Result: {snap.result}</div>
+            ) : (
+              <div className="p-4 border">
+                Result: Invalid return type; must be a string
+              </div>
+            )}
+          </Fragment>
         )}
-        {snap.result && <div className="p-4 border">Result: {snap.result}</div>}
       </div>
     </div>
   );
